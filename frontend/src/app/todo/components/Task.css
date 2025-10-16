@@ -1,0 +1,16 @@
+.taskNotCompleted {
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: white;
+}
+
+.taskCompleted {
+    padding: 12px;
+    border-radius: 12px;
+    background-color: #d1fae5;
+    cursor: pointer;
+    text-decoration: line-through;
+    transition: all 0.2s ease-in-out;
+}
