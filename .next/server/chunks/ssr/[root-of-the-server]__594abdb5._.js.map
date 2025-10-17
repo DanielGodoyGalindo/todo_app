@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///C:/DANI/PROGRAMACION/NODEJS/TODO_APP/frontend/src/app/todo/components/Task.tsx"],"sourcesContent":["import { useState } from \"react\"\r\n\r\nexport default function Task() {\r\n\r\n    const [isCompleted, setIsCompleted] = useState<boolean>(false)\r\n    const [text, setText] = useState<string>(\"default task\")\r\n    \r\n    function handleClick() {\r\n        setIsCompleted(!isCompleted)\r\n    }\r\n\r\n    return (\r\n        <div>\r\n            <p onClick={handleClick}>{text}</p>\r\n        </div>\r\n    )\r\n}"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IAEpB,MAAM,CAAC,aAAa,eAAe,GAAG,IAAA,iNAAQ,EAAU;IACxD,MAAM,CAAC,MAAM,QAAQ,GAAG,IAAA,iNAAQ,EAAS;IAEzC,SAAS;QACL,eAAe,CAAC;IACpB;IAEA,qBACI,8OAAC;kBACG,cAAA,8OAAC;YAAE,SAAS;sBAAc;;;;;;;;;;;AAGtC","debugId":null}},
-    {"offset": {"line": 48, "column": 0}, "map": {"version":3,"sources":["file:///C:/DANI/PROGRAMACION/NODEJS/TODO_APP/frontend/src/app/todo/page.tsx"],"sourcesContent":["import Task from \"./components/Task\"\r\n\r\nexport default function TodoMain() {\r\n  return <div>\r\n    <h1>TODO App</h1>\r\n    <Task/>\r\n  </div>\r\n}"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBAAO,8OAAC;;0BACN,8OAAC;0BAAG;;;;;;0BACJ,8OAAC,oJAAI;;;;;;;;;;;AAET","debugId":null}}]
-}

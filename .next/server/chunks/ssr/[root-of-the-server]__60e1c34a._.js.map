@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///C:/DANI/PROGRAMACION/NODEJS/TODO_APP/frontend/src/app/todo/page.tsx"],"sourcesContent":["import Task from \"./components/Task\"\r\n\r\nexport default function TodoMain() {\r\n  return <div>\r\n    <h1>TODO App</h1>\r\n    <p>Work in progress</p>\r\n  </div>\r\n}"],"names":[],"mappings":";;;;;;AAEe,SAAS;IACtB,qBAAO,8OAAC;;0BACN,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;;;;;;;AAEP","debugId":null}}]
-}

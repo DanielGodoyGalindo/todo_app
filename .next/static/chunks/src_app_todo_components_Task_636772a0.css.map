@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///C:/DANI/PROGRAMACION/NODEJS/TODO_APP/frontend/src/app/todo/components/Task.css"],"sourcesContent":[".taskNotCompleted {\r\n    padding: 12px;\r\n    border-radius: 12px;\r\n    cursor: pointer;\r\n    transition: all 0.2s ease-in-out;\r\n    background-color: white;\r\n}\r\n\r\n.taskCompleted {\r\n    padding: 12px;\r\n    border-radius: 12px;\r\n    background-color: #d1fae5;\r\n    cursor: pointer;\r\n    text-decoration: line-through;\r\n    transition: all 0.2s ease-in-out;\r\n}"],"names":[],"mappings":"AAAA;;;;;;;;AAQA","debugId":null}}]
-}
