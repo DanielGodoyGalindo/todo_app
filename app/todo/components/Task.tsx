@@ -1,7 +1,7 @@
 'use client'; // Ensure that this is a Client Component (only rendered in Client Side)
 
 import { useState } from "react"
-import './Task.css';
+
 
 export interface TaskInterface {
     _id: number,
@@ -30,8 +30,10 @@ export default function Task({ taskRecieved }: TaskProps) {
         });
     }
 
+    const taskHoverStyle = "font-bold hover:bg-green-100 cursor-pointer";
+
     return (
-        <div onClick={handleClick} className={isCompleted ? "taskCompleted" : "taskNotCompleted"}>
+        <div onClick={handleClick} className={`${isCompleted ? "line-through text-gray-400" : "text-black"} ${taskHoverStyle}`}>
             {taskRecieved.text}
         </div>
     );

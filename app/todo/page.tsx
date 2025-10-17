@@ -18,7 +18,14 @@ export default async function TodoMain() {
 
   return (
     <div>
-      <h1>TODO App</h1>
+      <h1 className="text-3xl">TODO App</h1>
+      <div className="flex gap-3 w-4/12">
+        <input type="text" placeholder="Type your task..."
+          className="border border-black rounded p-1.5 flex-4" />
+        <button
+          className="border border-green-700 flex-1 rounded-md px-4 py-2 text-green-700 hover:bg-green-700 hover:text-white transition duration-200 cursor-pointer">
+          Add</button>
+      </div>
       <ul style={{ display: "flex", flexDirection: 'column', gap: '8px', width: '20rem', textAlign: 'center' }}>
         {tasks.map((task: TaskInterface) => (
           <li key={task._id} style={{ listStyle: "none" }}>
