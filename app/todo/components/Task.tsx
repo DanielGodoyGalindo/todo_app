@@ -30,10 +30,10 @@ export default function Task({ taskRecieved }: TaskProps) {
         });
     }
 
-    const taskHoverStyle = "font-bold hover:bg-green-100 cursor-pointer";
+    const taskStyle = "hover:bg-green-200 hover:font-bold cursor-pointer rounded-lg transition-all duration-300 p-2";
 
     return (
-        <div onClick={handleClick} className={`${isCompleted ? "line-through text-gray-400" : "text-black"} ${taskHoverStyle}`}>
+        <div onClick={handleClick} className={`${isCompleted ? "line-through text-gray-400" : "text-black"} ${taskStyle}`}>
             {taskRecieved.text}
         </div>
     );

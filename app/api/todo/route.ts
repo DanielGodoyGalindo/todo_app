@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { connectToDB } from '@/lib/mongodb'
 import Task from '@/models/Task'
 
+// https://nextjs.org/docs/app/api-reference/file-conventions/route
+
 // Get all tasks
 export async function GET() {
   try {
