@@ -22,11 +22,16 @@ export default function Task({ taskRecieved }: TaskProps) {
     const [task, setTask] = useState<TaskInterface | undefined>(taskRecieved);
 
     // Toggle task completion status
-    function handleClick() {
+    async function handleClick() {
         setIsCompleted(!isCompleted); // Update local completion state
         setTask({                     // Update local task object
             ...task!,
             isCompleted: !isCompleted
+        });
+        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todo`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: task?._id, isCompleted: !isCompleted }) // send id and !isCompleted state (! to send correct boolean otherwise current is sent without update)
         });
     }
 
