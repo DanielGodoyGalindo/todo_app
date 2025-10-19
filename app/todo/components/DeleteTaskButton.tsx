@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function DeleteTaskButton({ taskIdToDelete }: { taskIdToDelete: string }) {
+// Receives the task ID and a callback from the parent component to handle post-deletion updates
+export default function DeleteTaskButton({ taskIdToDelete, onDeleted }: { taskIdToDelete: string, onDeleted: (id: string) => void }) {
 
     const router = useRouter();
 
@@ -18,9 +19,7 @@ export default function DeleteTaskButton({ taskIdToDelete }: { taskIdToDelete: s
             if (!res.ok) {
                 throw new Error("Error deleting task");
             }
-            if (res.ok) {
-                router.refresh();
-            }
+            onDeleted(taskIdToDelete); // Trigger the parent's callback with the deleted task ID so the list can be updated accordingly
         } catch (error) {
             console.error(error);
         }
@@ -30,8 +29,9 @@ export default function DeleteTaskButton({ taskIdToDelete }: { taskIdToDelete: s
         <div>
             <button
                 onClick={handleClick}
-                className="border p-1">
-                Delete 🗑️
+                className="flex-1 rounded-md px-4 py-2 hover:bg-red-100
+                         hover:text-white transition-all duration-300 cursor-pointer h-10">
+                ❌
             </button>
         </div>
     );
