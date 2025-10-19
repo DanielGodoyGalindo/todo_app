@@ -1,9 +1,9 @@
 "use client"
 
+// use {} for named exports and don't use {} for default exports
 import { useEffect, useState } from "react"
-import Task, { TaskInterface } from "./components/Task" // use {} for named exports and don't use {} for default exports
-// Task → default export → no curly braces
-// TaskInterface → named export → must use curly braces {}
+import Task, { TaskInterface } from "./components/Task" // Task → default export → no curly braces // TaskInterface → named export → must use curly braces {}
+import DeleteTaskButton from "./components/DeleteTaskButton";
 
 export default function TodoMain() {
 
@@ -53,18 +53,20 @@ export default function TodoMain() {
                     onClick={handleClick}>
                     Add</button>
             </div>
-            <ul className="flex flex-col gap-2 text-center pl-6 w-auto">
+            <ul className="flex flex-col items-center gap-2 text-center pl-6 w-auto">
                 {tasks.length === 0 ? (<p className="text-xl">⏳ Loading tasks...</p>) : (
                     tasks.map((task: TaskInterface) => (
-                        <li key={task._id} className="list-none">
+                        <li key={task._id} className="list-none flex">
                             {/* Render the Task component and pass the task data as props */}
                             <Task taskRecieved={task} />
+                            {/* Render delete button and pass id as prop */}
+                            <DeleteTaskButton taskIdToDelete={task._id.toString()} />
                         </li>
                     ))
 
                 )}
             </ul>
-            <p className="bg-red-300 mt-12">todo: update in mongodb when clicking a task</p>
+            <p className="bg-red-300 mt-12">todo: refresh all tasks when deleting a task</p>
         </div>
     );
 }
