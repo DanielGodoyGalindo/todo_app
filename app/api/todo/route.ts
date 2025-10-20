@@ -1,6 +1,20 @@
 import { NextResponse } from 'next/server'
 import { connectToDB } from '@/lib/mongodb'
 import Task from '@/models/Task'
+import * as z from "zod";
+
+// Using Zod to validate data
+// https://zod.dev/basics
+const CreateTaskSchema = z.object({
+    text: z.string().min(1, "Text is required"),
+    isCompleted: z.boolean().default(false),
+});
+
+const UpdateTaskSchema = z.object({
+    id: z.string().min(1, "Missing task ID"),
+    text: z.string().min(1).optional(),
+    isCompleted: z.boolean().optional(),
+});
 
 // https://nextjs.org/docs/app/api-reference/file-conventions/route
 // https://nextjs.org/docs/app/api-reference/functions/next-response#json
@@ -31,9 +45,16 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     try {
         const data = await req.json();
+        console.log("📥 Data received:", data);
+        const validation = CreateTaskSchema.safeParse(data); // Using Zod
+        if (!validation.success) {
+            const errors = validation.error.issues.map((i) => i.message);
+            return NextResponse.json({ errors }, { status: 400 });
+        }
+        const validatedData = validation.data;
         await connectToDB();
-        const task = await Task.create(data);
-        return NextResponse.json(task, { status: 201 });
+        const newTask = await Task.create(validatedData);
+        return NextResponse.json(newTask, { status: 201 });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: 'Error creating task' }, { status: 500 });
@@ -44,6 +65,10 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
     try {
         const data = await req.json();
+        const validation = UpdateTaskSchema.safeParse(data); // Using Zod
+        if (!validation.success) {
+            return NextResponse.json({ message: validation.error.issues }, { status: 400 });
+        }
         await connectToDB();
         // https://medium.com/@turingvang/next-js-mongodb-crud-example-b6e8f327a2af
         // https://www.w3schools.com/nodejs/nodejs_mongodb_update.asp
@@ -59,13 +84,17 @@ export async function PATCH(req: Request) {
 }
 
 // Delete task
+// https://dev.to/spencerlepine/get-post-put-delete-with-nextjs-app-router-5do0
 export async function DELETE(req: Request) {
     try {
-        const data = await req.json();
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
+        if (!id) {
+            return NextResponse.json({ message: "Missing task ID" }, { status: 400 });
+        }
         await connectToDB();
-        await Task.deleteOne(
-            { _id: data.id }
-        );
+        // https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete()
+        await Task.findByIdAndDelete(id);
         return NextResponse.json({ message: "Task deleted" }, { status: 200 });
     } catch (error) {
         console.error(error);

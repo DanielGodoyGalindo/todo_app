@@ -16,7 +16,7 @@ export default function TodoMain() {
     async function fetchTasks() {
         setLoading(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todo`, {
+            const res = await fetch("/api/todo", {
                 // Default method is GET if not specified
                 cache: "no-store", // ensures fresh data (no caching)
             });
@@ -46,7 +46,7 @@ export default function TodoMain() {
         if (inputTask.length === 0)
             return;
         // https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch#suministrando_opciones_de_petici%C3%B3n
-        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/todo`, {
+        await fetch("/api/todo", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: inputTask, isCompleted: false })
