@@ -16,20 +16,32 @@ const UpdateTaskSchema = z.object({
     isCompleted: z.boolean().optional(),
 });
 
+const IdTaskSchema = z.object({
+    id: z.string().regex(/^[a-fA-F\d]{24}$/, "Invalid MongoDB ObjectId")
+});
+
 // https://nextjs.org/docs/app/api-reference/file-conventions/route
 // https://nextjs.org/docs/app/api-reference/functions/next-response#json
 
 // Get [a task | all tasks]
 export async function GET(req: Request) {
     try {
-        await connectToDB();
         // Get a task
         // https://nextjs.org/docs/app/api-reference/file-conventions/route#url-query-parameters
         // https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
-        const { searchParams } = new URL(req.url);
-        const id = searchParams.get("id");
+        const { searchParams } = new URL(req.url); // Get url
+        const id = searchParams.get("id"); // Get id from url
+        await connectToDB();
         if (id) {
-            const task = await Task.findById(id);
+            const validation = IdTaskSchema.safeParse({ id }); // Using Zod
+            if (!validation.success) {
+                const errors = validation.error.issues.map((i) => i.message);
+                return NextResponse.json({ errors }, { status: 400 });
+            }
+            const task = await Task.findById(validation.data.id);
+            if (!task) {
+                return NextResponse.json({ message: "Task not found" }, { status: 404 });
+            }
             return NextResponse.json(task);
         }
         // Get all tasks
@@ -50,7 +62,7 @@ export async function POST(req: Request) {
             const errors = validation.error.issues.map((i) => i.message);
             return NextResponse.json({ errors }, { status: 400 });
         }
-        const validatedData = validation.data;
+        const validatedData = validation.data; // Get data from Zod
         await connectToDB();
         const newTask = await Task.create(validatedData);
         return NextResponse.json(newTask, { status: 201 });
@@ -92,12 +104,20 @@ export async function DELETE(req: Request) {
         if (!id) {
             return NextResponse.json({ message: "Missing task ID" }, { status: 400 });
         }
+        const validation = IdTaskSchema.safeParse({ id }); // Zod
+        if (!validation.success) {
+            const errors = validation.error.issues.map((i) => i.message);
+            return NextResponse.json({ errors }, { status: 400 });
+        }
         await connectToDB();
         // https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete()
-        await Task.findByIdAndDelete(id);
+        const deletedTask = await Task.findByIdAndDelete(validation.data.id);
+        if (!deletedTask) {
+            return NextResponse.json({ message: "Task not found" }, { status: 404 });
+        }
         return NextResponse.json({ message: "Task deleted" }, { status: 200 });
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ message: "Error deleting task" });
+        return NextResponse.json({ message: "Error deleting task" }, { status: 500 });
     }
 }
