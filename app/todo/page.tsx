@@ -56,34 +56,35 @@ export default function TodoMain() {
     }
 
     return (
-        <div className="w-lg mx-auto">
-            <h1 className="text-3xl ml-6">TODO list</h1>
-            <div className="flex gap-3 w-auto m-6">
-                <input type="text" placeholder="Type your task..."
-                    className="border border-black rounded p-1.5 flex-4"
-                    value={inputTask}
-                    onChange={e => setInputTask(e.target.value)}
-                />
-                <button
-                    className="border flex-1 rounded-md px-4 py-2
-                             hover:bg-black hover:text-white transition duration-200 cursor-pointer h-10"
-                    onClick={handleClick}>Add
-                </button>
-            </div>
-            <ul className="flex flex-col items-center gap-2 text-center pl-6 w-auto">
-                {loading ? (<p className="text-xl">Loading tasks...</p>) :
-                    tasks.length === 0 ? (<p className="text-xl">No tasks to show...</p>) : (
-                        tasks.map((task: TaskInterface) => (
-                            <li key={task._id} className="list-none flex gap-3">
-                                {/* Render the Task component and pass the task data as props */}
-                                <Task taskRecieved={task} />
-                                {/* Render delete button and pass task id and handleTaskDeleted function as props */}
-                                <DeleteTaskButton taskIdToDelete={task._id.toString()} onDeleted={handleTaskDeleted} />
-                            </li>
-                        ))
-                    )}
-            </ul>
-            <p className="bg-red-300 mt-12 p-1">todo: styling - edit task?</p>
+        <div className="h-auto flex flex-col justify-between bg-amber-50">
+            <main className="w-lg mx-auto min-h-[calc(100vh-4rem)]">
+                <h1 className="text-3xl font-bold text-amber-600 tracking-tight drop-shadow-sm mb-4 ml-6 mt-6">TODO list</h1>
+                <div className="flex gap-3 w-auto m-6">
+                    <input type="text" placeholder="Type your task..."
+                        className="border border-black rounded p-1.5 flex-4 bg-white"
+                        value={inputTask}
+                        onChange={e => setInputTask(e.target.value)}
+                    />
+                    <button
+                        className="border-2 flex-1 rounded-md px-4 py-2 border-amber-400 bg-amber-400
+                             hover:bg-amber-500 hover:border-amber-500 hover:text-white transition duration-200 cursor-pointer h-10"
+                        onClick={handleClick}>Add
+                    </button>
+                </div>
+                <ul className="flex flex-col items-center gap-2 text-center pl-6 w-auto">
+                    {loading ? (<p className="text-xl">Loading tasks...</p>) :
+                        tasks.length === 0 ? (<p className="text-xl">No tasks to show...</p>) : (
+                            tasks.map((task: TaskInterface) => (
+                                <li key={task._id} className="list-none flex gap-3">
+                                    {/* Render the Task component and pass the task data as props */}
+                                    <Task taskRecieved={task} />
+                                    {/* Render delete button and pass task id and handleTaskDeleted function as props */}
+                                    <DeleteTaskButton taskIdToDelete={task._id.toString()} onDeleted={handleTaskDeleted} />
+                                </li>
+                            ))
+                        )}
+                </ul>
+            </main>
         </div>
     );
 }

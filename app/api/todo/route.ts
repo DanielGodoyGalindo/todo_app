@@ -45,7 +45,6 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
     try {
         const data = await req.json();
-        console.log("📥 Data received:", data);
         const validation = CreateTaskSchema.safeParse(data); // Using Zod
         if (!validation.success) {
             const errors = validation.error.issues.map((i) => i.message);
@@ -69,12 +68,13 @@ export async function PATCH(req: Request) {
         if (!validation.success) {
             return NextResponse.json({ message: validation.error.issues }, { status: 400 });
         }
+        const validatedData = validation.data;
         await connectToDB();
         // https://medium.com/@turingvang/next-js-mongodb-crud-example-b6e8f327a2af
         // https://www.w3schools.com/nodejs/nodejs_mongodb_update.asp
         await Task.updateOne(
-            { _id: data.id }, // Filter: find the task document by its unique _id
-            { $set: { isCompleted: data.isCompleted } } // Update: set the isCompleted field to the new value
+            { _id: validatedData.id }, // Filter: find the task document by its unique _id
+            { $set: { isCompleted: validatedData.isCompleted } } // Update: set the isCompleted field to the new value
         );
         return NextResponse.json({ message: "Task updated" }, { status: 200 });
     } catch (error) {

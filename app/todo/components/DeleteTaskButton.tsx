@@ -23,7 +23,7 @@ export default function DeleteTaskButton({ taskIdToDelete, onDeleted }: { taskId
         <div>
             <button
                 onClick={handleClick}
-                className="flex-1 rounded-md px-4 py-2 hover:bg-red-100
+                className="flex-1 rounded-md px-4 py-2 
                          hover:text-white transition-all duration-300 cursor-pointer h-10">
                 ❌
             </button>
