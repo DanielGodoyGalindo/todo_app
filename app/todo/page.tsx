@@ -64,6 +64,7 @@ export default function TodoMain() {
                         className="border border-black rounded p-1.5 flex-4 bg-white"
                         value={inputTask}
                         onChange={e => setInputTask(e.target.value)}
+                        minLength={3}
                     />
                     <button
                         className="border-2 flex-1 rounded-md px-4 py-2 border-amber-400 bg-amber-400

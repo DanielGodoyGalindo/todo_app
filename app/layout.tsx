@@ -30,7 +30,7 @@ export default function RootLayout({
                 </main>
 
                 <footer className="bg-black text-white p-4">
-                    <p className="text-center">© 2025 Utility Hub — Daniel Godoy</p>
+                    <p className="text-center">© 2025 Utility Hub — <a href="https://github.com/DanielGodoyGalindo" className="hover:underline">Daniel Godoy</a></p>
                 </footer>
             </body>
         </html>
