@@ -20,7 +20,8 @@ export async function GET(req: Request) {
         "temp_max": number in degrees Celsius,
         "temp_min": number in degrees Celsius,
         "wind_kmh": number in km/h,
-        "icon": "sun" | "rain" | "clouds" | "snow"
+        "icon": "sun" | "rain" | "clouds" | "snow",
+        "country_code": city's country code
     }`;
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
