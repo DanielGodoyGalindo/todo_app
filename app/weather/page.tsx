@@ -12,7 +12,7 @@ type WeatherData = {
     country_code: string;
 };
 
-export default function About() {
+export default function Weather() {
 
     const [cityName, setCityName] = useState("");
     const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -22,7 +22,6 @@ export default function About() {
         setLoading(true);
         const res = await fetch(`/api/weather?city=${encodeURIComponent(cityName)}`, { cache: "no-store" });
         const data = await res.json();
-        console.log(data);
         setWeather(data);
         setLoading(false);
     }
@@ -62,6 +61,8 @@ export default function About() {
                                             <span className="text-4xl">{weather.current_temp}°C</span>
                                         </div>
                                         <div id="temps" className="flex flex-col items-center justify-center m-auto text-xl">
+                                            <span>🍃</span>
+                                            <span className="mb-3">Wind: {weather.wind_kmh} km/h</span>
                                             <span>🌡️</span>
                                             <span>Max: {weather.temp_max}°C</span>
                                             <span>Min: {weather.temp_min}°C</span>
