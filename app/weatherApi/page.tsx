@@ -47,6 +47,7 @@ export default function WeatherApi() {
 
     return (
         <div className="p-6">
+            <h1 className="text-center mb-6 text-emerald-600 text-4xl">Weather App</h1>
             <div id="input_button" className="flex gap-2 mb-6 justify-center">
                 <input
                     className="border border-gray-300 rounded-lg px-3 py-2 w-60"
@@ -90,24 +91,35 @@ export default function WeatherApi() {
 
                     {/* Forecast */}
                     {Array.isArray(weatherData.forecast) && weatherData.forecast.length > 0 && (
-                        <div className="bg-white rounded-xl p-4 shadow-inner">
-                            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-                                Next days
-                            </h3>
-                            <ul className="space-y-2">
-                                {/* Each day */}
-                                {weatherData.forecast.map((day, index) => (
-                                    <li key={index} className="flex justify-between items-center border-b border-gray-100 last:border-none py-2">
-                                        <span className="font-medium text-gray-700">Day {day.day}</span>
-                                        <span className="text-blue-700 font-semibold">{day.temperature}</span>
-                                        <span className="text-gray-600 text-sm">💨 {day.wind}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="bg-white rounded-xl p-4 shadow-inner mt-4">
+                            <h3 className="text-lg font-semibold text-gray-700 mb-3 text-center">Next days</h3>
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full text-center border-collapse">
+                                    <thead>
+                                        <tr className="bg-blue-600">
+                                            <th className="py-2 px-4 text-white font-bold border-b">Day</th>
+                                            <th className="py-2 px-4 text-white font-bold border-b">Temperature</th>
+                                            <th className="py-2 px-4 text-white font-bold border-b">Wind</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {weatherData.forecast.map((day, index) => (
+                                            <tr key={index} className="hover:bg-blue-100 transition-colors">
+                                                <td className="py-2 px-4 font-medium text-gray-700 border-b">
+                                                    {day.day === "1" ? "Tomorrow" : day.day === "2" ? "Tomorrow +1" : "Tomorrow +2"}
+                                                </td>
+                                                <td className="py-2 px-4 text-blue-700 font-semibold border-b">{day.temperature}</td>
+                                                <td className="py-2 px-4 text-gray-600 border-b">💨 {day.wind}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     )}
                 </div>
             )}
+            <p className="text-center mt-6">Made thanks to <a href="https://github.com/robertoduessmann/weather-api" className="underline">weather-api</a> by robertoduessmann</p>
         </div>
     );
 }
