@@ -4,13 +4,15 @@ export default function Main() {
     const liStyle = "flex items-center justify-center";
 
     return (
-        <div className="font-mono text-xl">
-            <ul className="flex items-center justify-center">
-                <li className={liStyle}><a href="./todo" className={linkStyle}>TODO List</a></li>
-                <li className={liStyle}><a href="./weather" className={linkStyle}>Weather App (AI)</a></li>
-                <li className={liStyle}><a href="./weatherApi" className={linkStyle}>Weather App (API)</a></li>
-                <li className={liStyle}><a href="./news" className={linkStyle}>News (API)</a></li>
-            </ul>
+        <div className="text-xl">
+            <div id="navigation_bar">
+                <ul className="flex items-center justify-center bg-black">
+                    <li className={liStyle}><a href="./todo" className={linkStyle}>TODO List</a></li>
+                    <li className={liStyle}><a href="./weather" className={linkStyle}>Weather App (AI)</a></li>
+                    <li className={liStyle}><a href="./weatherApi" className={linkStyle}>Weather App (API)</a></li>
+                    <li className={liStyle}><a href="./news" className={linkStyle}>News (API)</a></li>
+                </ul>
+            </div>
             <h1 className="text-center mt-36">Welcome to my Hub :)</h1>
             <h1 className="text-center">Click in one of the options above</h1>
         </div>

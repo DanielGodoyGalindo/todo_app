@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import BackButton from "../components/backButton";
 
 type WeatherData = {
     summary: string;
@@ -35,16 +36,17 @@ export default function Weather() {
 
     return (
         <div>
+            <BackButton />
             <div id="header_input_button" className="flex flex-col max-w-xl mx-auto text-center mt-6">
                 <h1 className="text-blue-500 text-5xl mb-6 font-mono">Weather App</h1>
                 <p className="mb-6">Enter the city to check today's weather:</p>
                 <div id="input_button" className="flex justify-center items-center gap-2">
                     {weather?.country_code && !loading ? (
-                    <img
-                        src={`https://flagcdn.com/24x18/${weather?.country_code.toLowerCase()}.png`}
-                        alt={weather?.country_code}
-                        className="inline-block w-6 h-4 rounded-sm"
-                    /> ) : ("")}
+                        <img
+                            src={`https://flagcdn.com/24x18/${weather?.country_code.toLowerCase()}.png`}
+                            alt={weather?.country_code}
+                            className="inline-block w-6 h-4 rounded-sm"
+                        />) : ("")}
                     <input type="text" placeholder="Enter city's name..." className="border-2 rounded-md p-1" onChange={e => { setCityName(e.target.value) }} minLength={2} />
                     <button className="bg-blue-500 text-white p-1 w-12 border-blue-800 border-2 rounded-md cursor-pointer" onClick={handleClick}>Go!</button>
                 </div>
