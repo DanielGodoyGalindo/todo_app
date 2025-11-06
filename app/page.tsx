@@ -1,3 +1,5 @@
+import AuthButton from "./components/AuthButton";
+
 export default function Main() {
 
     const linkStyle = "bg-black text-white p-4 hover:underline ";
@@ -12,6 +14,7 @@ export default function Main() {
                     <li className={liStyle}><a href="./weatherApi" className={linkStyle}>Weather App (API)</a></li>
                     <li className={liStyle}><a href="./news" className={linkStyle}>News (API)</a></li>
                 </ul>
+                <AuthButton />
             </div>
             <h1 className="text-center mt-36">Welcome to my Hub :)</h1>
             <h1 className="text-center">Click in one of the options above</h1>

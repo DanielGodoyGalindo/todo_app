@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import BackButton from "../components/backButton";
+import AuthButton from "../components/AuthButton";
 
 type WeatherData = {
     summary: string;
@@ -37,6 +38,7 @@ export default function Weather() {
     return (
         <div>
             <BackButton />
+            <AuthButton />
             <div id="header_input_button" className="flex flex-col max-w-xl mx-auto text-center mt-6">
                 <h1 className="text-blue-500 text-5xl mb-6 font-mono">Weather App</h1>
                 <p className="mb-6">Enter the city to check today's weather:</p>

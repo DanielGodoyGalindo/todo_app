@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BackButton from "../components/backButton"
+import AuthButton from "../components/AuthButton"
 
 async function getNews(page = 1) {
     // https://newsapi.org/docs/endpoints/sources
@@ -28,6 +29,7 @@ export default async function NewsPage({ params }) {
     return (
         <div >
             <BackButton />
+            <AuthButton/>
             <main className="pb-6 pl-6 pr-6 max-w-5xl mx-auto">
                 <h1 className="text-3xl font-bold mb-6 text-center">📰 Page {page}</h1>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

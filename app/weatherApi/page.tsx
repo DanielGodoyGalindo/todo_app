@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import BackButton from "../components/backButton";
+import AuthButton from "../components/AuthButton";
 
 interface ForecastDay {
     day: string;
@@ -48,7 +49,8 @@ export default function WeatherApi() {
 
     return (
         <div className="pb-6">
-            <BackButton/>
+            <BackButton />
+            <AuthButton />
             <h1 className="text-center mb-6 text-emerald-600 text-4xl">Weather App</h1>
             <div id="input_button" className="flex gap-2 mb-6 justify-center">
                 <input
