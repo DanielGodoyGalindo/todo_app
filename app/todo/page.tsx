@@ -6,13 +6,21 @@ import Task, { TaskInterface } from "./components/Task" // Task → default expo
 import DeleteTaskButton from "./components/DeleteTaskButton";
 import BackButton from "../components/backButton";
 import AuthButton from "../components/AuthButton";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function TodoMain() {
+export default async function TodoMain() {
 
     // Declare hooks
     const [inputTask, setInputTask] = useState(""); // Stores the user input for a new task
     const [tasks, setTasks] = useState<TaskInterface[]>([]); // Stores the list of fetched tasks
     const [loading, setLoading] = useState<boolean>(true); // Loading state to show message when fetching tasks
+
+    // Protect frontend from server
+    const session = await getServerSession();
+    if (!session) {
+        redirect("/api/auth/signin");
+    }
 
     // Fetch all tasks from the API
     async function fetchTasks() {
@@ -59,8 +67,8 @@ export default function TodoMain() {
 
     return (
         <div className="h-auto flex flex-col justify-between bg-amber-50">
-            <BackButton/>
-            <AuthButton/>
+            <BackButton />
+            <AuthButton />
             <main className="w-lg mx-auto min-h-[calc(100vh-4rem)]">
                 <h1 className="text-3xl font-bold text-amber-600 tracking-tight drop-shadow-sm mb-4 ml-6 mt-6">TODO list</h1>
                 <div className="flex gap-3 w-auto m-6">
