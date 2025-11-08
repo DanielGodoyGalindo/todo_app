@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 // use {} for named exports and don't use {} for default exports
 import { useEffect, useState } from "react"
@@ -6,21 +6,14 @@ import Task, { TaskInterface } from "./components/Task" // Task → default expo
 import DeleteTaskButton from "./components/DeleteTaskButton";
 import BackButton from "../components/backButton";
 import AuthButton from "../components/AuthButton";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
-export default async function TodoMain() {
+export default function TodoMain() {
 
     // Declare hooks
     const [inputTask, setInputTask] = useState(""); // Stores the user input for a new task
     const [tasks, setTasks] = useState<TaskInterface[]>([]); // Stores the list of fetched tasks
     const [loading, setLoading] = useState<boolean>(true); // Loading state to show message when fetching tasks
-
-    // Protect frontend from server
-    const session = await getServerSession();
-    if (!session) {
-        redirect("/api/auth/signin");
-    }
+    const [serverError, setServerError] = useState<string | null>(null); // Errors from backend
 
     // Fetch all tasks from the API
     async function fetchTasks() {
@@ -49,6 +42,7 @@ export default async function TodoMain() {
         // Update the state by keeping all tasks except the one that matches the deleted ID
         // https://react.dev/learn/updating-arrays-in-state#removing-from-an-array
         setTasks(prev => prev.filter(task => task._id.toString() !== deletedId));
+        setServerError("");
     }
 
     // Add a new task when the "Add" button is clicked
@@ -56,12 +50,16 @@ export default async function TodoMain() {
         if (inputTask.length === 0)
             return;
         // https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch#suministrando_opciones_de_petici%C3%B3n
-        await fetch("/api/todo", {
+        const res = await fetch("/api/todo", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: inputTask, isCompleted: false })
         });
         setInputTask("");
+        const data = await res.json();
+        if (data.error) {
+            setServerError(data.error);
+        }
         await fetchTasks();
     }
 
@@ -97,6 +95,7 @@ export default async function TodoMain() {
                             ))
                         )}
                 </ul>
+                <p className="text-center mt-6 text-red-600">{serverError ? serverError : ""}</p>
             </main>
         </div>
     );

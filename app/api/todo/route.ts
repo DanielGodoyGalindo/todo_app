@@ -98,11 +98,11 @@ export async function POST(req: Request) {
         }
         const validatedData = validation.data; // Get data from Zod
         await connectToDB(); // Connect to DB
-        // Limit posting tasks (3 max per user)
+        // Limit posting tasks (5 max per user)
         const count = await Task.countDocuments({ userEmail });
-        if (count >= 3) {
+        if (count >= 5) {
             return NextResponse.json(
-                { error: "Task limit reached (3 max)" },
+                { error: "Task limit per user reached (5 max)" },
                 { status: 403 }
             );
         }
