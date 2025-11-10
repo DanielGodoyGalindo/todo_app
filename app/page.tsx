@@ -13,6 +13,7 @@ export default function Main() {
                     <li className={liStyle}><a href="./weather" className={linkStyle}>Weather App (AI)</a></li>
                     <li className={liStyle}><a href="./weatherApi" className={linkStyle}>Weather App (API)</a></li>
                     <li className={liStyle}><a href="./news" className={linkStyle}>News (API)</a></li>
+                    <li className={liStyle}><a href="./editor" className={linkStyle}>Text editor App</a></li>
                 </ul>
                 <div className="mt-6 text-base">
                     <AuthButton />
