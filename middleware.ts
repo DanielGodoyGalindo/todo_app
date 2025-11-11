@@ -8,5 +8,6 @@ export const config = {
     "/weather/:path*", 
     "/weatherApi/:path*",
     "/news/:path*",
+    "/editor/:path*",
   ],
 };

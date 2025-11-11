@@ -1,8 +1,10 @@
+import AuthButton from '@/app/components/AuthButton'
+import BackButton from '@/app/components/backButton'
 import { TextStyleKit } from '@tiptap/extension-text-style'
 import type { Editor } from '@tiptap/react'
 import { EditorContent, useEditor, useEditorState } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React from 'react'
+import { useEffect, useState } from 'react'
 
 // https://tiptap.dev/docs/examples/basics/default-text-editor
 
@@ -10,33 +12,32 @@ const extensions = [TextStyleKit, StarterKit]
 
 function MenuBar({ editor }: { editor: Editor | null }) {
     if (!editor) return null;
-    // Read the current editor's state, and re-render the component when it changes
     const editorState = useEditorState({
         editor,
         selector: ctx => {
             return {
-                isBold: ctx.editor.isActive('bold') ?? false,
-                canBold: ctx.editor.can().chain().toggleBold().run() ?? false,
-                isItalic: ctx.editor.isActive('italic') ?? false,
-                canItalic: ctx.editor.can().chain().toggleItalic().run() ?? false,
-                isStrike: ctx.editor.isActive('strike') ?? false,
-                canStrike: ctx.editor.can().chain().toggleStrike().run() ?? false,
-                isCode: ctx.editor.isActive('code') ?? false,
-                canCode: ctx.editor.can().chain().toggleCode().run() ?? false,
-                canClearMarks: ctx.editor.can().chain().unsetAllMarks().run() ?? false,
-                isParagraph: ctx.editor.isActive('paragraph') ?? false,
-                isHeading1: ctx.editor.isActive('heading', { level: 1 }) ?? false,
-                isHeading2: ctx.editor.isActive('heading', { level: 2 }) ?? false,
-                isHeading3: ctx.editor.isActive('heading', { level: 3 }) ?? false,
-                isHeading4: ctx.editor.isActive('heading', { level: 4 }) ?? false,
-                isHeading5: ctx.editor.isActive('heading', { level: 5 }) ?? false,
-                isHeading6: ctx.editor.isActive('heading', { level: 6 }) ?? false,
-                isBulletList: ctx.editor.isActive('bulletList') ?? false,
-                isOrderedList: ctx.editor.isActive('orderedList') ?? false,
-                isCodeBlock: ctx.editor.isActive('codeBlock') ?? false,
-                isBlockquote: ctx.editor.isActive('blockquote') ?? false,
-                canUndo: ctx.editor.can().chain().undo().run() ?? false,
-                canRedo: ctx.editor.can().chain().redo().run() ?? false,
+                isBold: ctx.editor.isActive('bold'),
+                canBold: ctx.editor.can().chain().toggleBold().run(),
+                isItalic: ctx.editor.isActive('italic'),
+                canItalic: ctx.editor.can().chain().toggleItalic().run(),
+                isStrike: ctx.editor.isActive('strike'),
+                canStrike: ctx.editor.can().chain().toggleStrike().run(),
+                isCode: ctx.editor.isActive('code'),
+                canCode: ctx.editor.can().chain().toggleCode().run(),
+                canClearMarks: ctx.editor.can().chain().unsetAllMarks().run(),
+                isParagraph: ctx.editor.isActive('paragraph'),
+                isHeading1: ctx.editor.isActive('heading', { level: 1 }),
+                isHeading2: ctx.editor.isActive('heading', { level: 2 }),
+                isHeading3: ctx.editor.isActive('heading', { level: 3 }),
+                isHeading4: ctx.editor.isActive('heading', { level: 4 }),
+                isHeading5: ctx.editor.isActive('heading', { level: 5 }),
+                isHeading6: ctx.editor.isActive('heading', { level: 6 }),
+                isBulletList: ctx.editor.isActive('bulletList'),
+                isOrderedList: ctx.editor.isActive('orderedList'),
+                isCodeBlock: ctx.editor.isActive('codeBlock'),
+                isBlockquote: ctx.editor.isActive('blockquote'),
+                canUndo: ctx.editor.can().chain().undo().run(),
+                canRedo: ctx.editor.can().chain().redo().run(),
             }
         },
     })
@@ -153,45 +154,24 @@ function MenuBar({ editor }: { editor: Editor | null }) {
     )
 }
 
-export default () => {
+export default function EditorWrapper() {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
     const editor = useEditor({
         immediatelyRender: false,
         extensions,
-        content: `
-<h2>
-  Hi there,
-</h2>
-<p>
-  this is a <em>basic</em> example of <strong>Tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-</p>
-<ul>
-  <li>
-    That’s a bullet list with one …
-  </li>
-  <li>
-    … or two list items.
-  </li>
-</ul>
-<p>
-  Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-</p>
-<pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-<p>
-  I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-</p>
-<blockquote>
-  Wow, that’s amazing. Good work, boy! 👏
-  <br />
-  — Mom
-</blockquote>
-`,
-    })
+        content: "<p>Hello there!</p>"
+    });
+
+    if (!mounted || !editor) return null;
+
     return (
         <div>
+            <BackButton />
+            <AuthButton />
             <MenuBar editor={editor} />
             <EditorContent editor={editor} className="tiptap" />
         </div>
-    )
+    );
 }

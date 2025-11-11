@@ -29,9 +29,9 @@ export default async function NewsPage({ params }) {
     return (
         <div >
             <BackButton />
-            <AuthButton/>
+            <AuthButton />
             <main className="pb-6 pl-6 pr-6 max-w-5xl mx-auto">
-                <h1 className="text-3xl font-bold mb-6 text-center">📰 Page {page}</h1>
+                <h1 className="text-3xl font-bold mb-6 text-center">News App 📰 Page {page}</h1>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {articles.map((article, i) => (
                         <article key={i} className="bg-white rounded-2xl shadow-md overflow-hidden">
