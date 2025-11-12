@@ -150,6 +150,9 @@ function MenuBar({ editor }: { editor: Editor | null }) {
                     Redo
                 </button>
             </div>
+            <button className='bg-green-200 hover: cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'>
+                Save  changes
+            </button>
         </div>
     )
 }
