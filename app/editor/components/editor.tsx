@@ -11,6 +11,9 @@ import { useEffect, useState } from 'react'
 const extensions = [TextStyleKit, StarterKit]
 
 function MenuBar({ editor }: { editor: Editor | null }) {
+
+    const [serverError, setServerError] = useState<string | null>(null); // Errors from backend
+
     if (!editor) return null;
     const editorState = useEditorState({
         editor,
@@ -41,6 +44,21 @@ function MenuBar({ editor }: { editor: Editor | null }) {
             }
         },
     })
+
+    // Save changes button
+    async function handleClick() {
+        const html = editor?.getHTML() || "";
+        const res = await fetch("/api/editor/save", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: "", content: html })
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.error) {
+            setServerError(data.error);
+        }
+    }
 
     return (
         <div className="control-group">
@@ -150,9 +168,13 @@ function MenuBar({ editor }: { editor: Editor | null }) {
                     Redo
                 </button>
             </div>
-            <button className='bg-green-200 hover: cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'>
+            <button className='bg-green-200 hover: cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'
+                onClick={handleClick}>
                 Save  changes
             </button>
+            {serverError && (
+                <p className="text-red-500 mt-2">{serverError}</p>
+            )}
         </div>
     )
 }
