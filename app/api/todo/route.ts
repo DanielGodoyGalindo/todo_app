@@ -190,7 +190,7 @@ export async function DELETE(req: Request) {
         }
         await connectToDB();
         // https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete()
-        const deletedTask = await Task.findByIdAndDelete({_id: validation.data.id, userEmail});
+        const deletedTask = await Task.findByIdAndDelete({ _id: validation.data.id, userEmail });
         if (!deletedTask) {
             return NextResponse.json({ message: "Task not found" }, { status: 404 });
         }

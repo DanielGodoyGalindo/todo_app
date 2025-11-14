@@ -51,7 +51,7 @@ function MenuBar({ editor }: { editor: Editor | null }) {
         const res = await fetch("/api/editor/save", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: "", content: html })
+            body: JSON.stringify({ title: "Title", content: html })
         });
         const data = await res.json();
         console.log(data);
