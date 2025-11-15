@@ -13,6 +13,7 @@ const extensions = [TextStyleKit, StarterKit]
 function MenuBar({ editor }: { editor: Editor | null }) {
 
     const [serverError, setServerError] = useState<string | null>(null); // Errors from backend
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [note, setNote] = useState<any>(null);
 
     if (!editor) return null;
@@ -49,8 +50,8 @@ function MenuBar({ editor }: { editor: Editor | null }) {
     // Save changes button
     async function handleClickSave() {
         try {
-
-
+            setServerError(null);
+            setSuccessMessage(null);
             const html = editor?.getHTML() || "";
             const res = await fetch("/api/editor", {
                 method: "POST",
@@ -58,13 +59,15 @@ function MenuBar({ editor }: { editor: Editor | null }) {
                 body: JSON.stringify({ _id: note?._id, title: note?.title || "Untitled", content: html })
             });
             const data = await res.json();
-            console.log(data);
             if (data.error) {
                 setServerError(data.error);
                 return;
             }
             setNote(data);
-            setServerError(null);
+            setSuccessMessage("Note saved!");
+            setTimeout(() => {
+                setSuccessMessage(null);
+            }, 5000);
         } catch (e) {
             console.error(e);
             setServerError("Error saving note");
@@ -196,13 +199,27 @@ function MenuBar({ editor }: { editor: Editor | null }) {
                     Redo
                 </button>
             </div>
-            <button className='bg-green-200 hover: cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'
-                onClick={handleClickSave}>
-                Save  changes
-            </button>
-            {serverError && (
-                <p className="text-red-500 mt-2">{serverError}</p>
-            )}
+            <div className='flex gap-3'>
+                <button className='bg-green-200 hover:cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'
+                    onClick={handleClickSave}>
+                    Save  changes
+                </button>
+                {/* TODO */}
+                <button className='bg-yellow-200 hover:cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'>
+                    Export note
+                </button>
+                {/*  */}
+                {successMessage && (
+                    <div className="flex justify-center items-center mt-2">
+                        <p className="text-green-600 p-2">{successMessage}</p>
+                    </div>
+                )}
+                {serverError && (
+                    <div className="flex justify-center items-center mt-2">
+                        <p className="text-red-500 mt-2 p-2">{serverError}</p>
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
