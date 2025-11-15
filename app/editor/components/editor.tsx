@@ -13,6 +13,7 @@ const extensions = [TextStyleKit, StarterKit]
 function MenuBar({ editor }: { editor: Editor | null }) {
 
     const [serverError, setServerError] = useState<string | null>(null); // Errors from backend
+    const [note, setNote] = useState<any>(null);
 
     if (!editor) return null;
     const editorState = useEditorState({
@@ -46,19 +47,46 @@ function MenuBar({ editor }: { editor: Editor | null }) {
     })
 
     // Save changes button
-    async function handleClick() {
-        const html = editor?.getHTML() || "";
-        const res = await fetch("/api/editor/save", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: "Title", content: html })
-        });
-        const data = await res.json();
-        console.log(data);
-        if (data.error) {
-            setServerError(data.error);
+    async function handleClickSave() {
+        try {
+
+
+            const html = editor?.getHTML() || "";
+            const res = await fetch("/api/editor", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ _id: note?._id, title: note?.title || "Untitled", content: html })
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data.error) {
+                setServerError(data.error);
+                return;
+            }
+            setNote(data);
+            setServerError(null);
+        } catch (e) {
+            console.error(e);
+            setServerError("Error saving note");
         }
     }
+
+    // Get note for logged user
+    async function loadNote() {
+        const res = await fetch("/api/editor");
+        const data = await res.json();
+        if (data.error) {
+            setServerError(data.error);
+            return;
+        }
+        setNote(data);
+        editor!.commands.setContent(data.content);
+    }
+
+    // Load note only once
+    useEffect(() => {
+        loadNote();
+    }, []);
 
     return (
         <div className="control-group">
@@ -169,7 +197,7 @@ function MenuBar({ editor }: { editor: Editor | null }) {
                 </button>
             </div>
             <button className='bg-green-200 hover: cursor-pointer p-2 mt-2 border border-gray-300 rounded-lg'
-                onClick={handleClick}>
+                onClick={handleClickSave}>
                 Save  changes
             </button>
             {serverError && (
@@ -186,7 +214,7 @@ export default function EditorWrapper() {
     const editor = useEditor({
         immediatelyRender: false,
         extensions,
-        content: "<p>Hello there!</p>"
+        content: "<p>Loading...</p>"
     });
 
     if (!mounted || !editor) return null;
